@@ -65,6 +65,7 @@ module.exports = {
     },
 
     getUsers: async (req, res, next) => {
+        console.log("get users func");
         res.header("Access-Control-Allow-Origin", "*")
         try {
             const users = await User.find({});
@@ -124,7 +125,8 @@ module.exports = {
 
     delete: async (req, res, next) => {
         try {
-            const { id } = req.params
+            const { id } = req.params;
+            console.log(id,"id");
             await User.findOneAndDelete({ _id: id })
             return res.status(200).json({ success: true })
         } catch (error) {
