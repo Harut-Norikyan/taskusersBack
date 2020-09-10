@@ -1,6 +1,6 @@
 const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
-const { options } = require("../routes/users");
+
 module.exports = {
 
     addUsers: async (req, res, next) => {
@@ -65,7 +65,6 @@ module.exports = {
     },
 
     getUsers: async (req, res, next) => {
-        console.log("get users func");
         res.header("Access-Control-Allow-Origin", "*")
         try {
             const users = await User.find({});
@@ -114,7 +113,8 @@ module.exports = {
                     }
                     else {
                         res.send({
-                            status: "user updated"
+                            status: "user updated",
+                            result,
                         });
                     };
                 });
@@ -126,11 +126,28 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const { id } = req.params;
-            console.log(id,"id");
             await User.findOneAndDelete({ _id: id })
-            return res.status(200).json({ success: true })
+            return res.send({
+                status: "success"
+            })
         } catch (error) {
             next(error)
         }
     },
+
+    getUserById: async (req, res, next) => {
+        try {
+            const {id} = req.params
+            User.findById(id,(err, user)=>{
+                if (err) {
+                    res.send({err})
+                }else{
+                    res.send({user})
+                } 
+            } )
+            
+        } catch (error) {
+            next(error)
+        }
+    }
 }
