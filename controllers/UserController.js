@@ -1,6 +1,6 @@
 const User = require("../models/Users");
 const jwt = require("jsonwebtoken");
-const { options } = require("../routes/users");
+
 module.exports = {
 
     addUsers: async (req, res, next) => {
@@ -58,14 +58,17 @@ module.exports = {
                     token,
                     user,
                 });
-            };
+            }else{
+                res.send({
+                    status:"Wrong email or password"
+                })
+            }
         } catch (error) {
             next(error)
         };
     },
 
     getUsers: async (req, res, next) => {
-        console.log("get users func");
         res.header("Access-Control-Allow-Origin", "*")
         try {
             const users = await User.find({});
@@ -77,6 +80,7 @@ module.exports = {
 
     update: async (req, res, next) => {
         try {
+            console.log(req.params);
             const { id } = req.params;
             const { firstName, lastName, email, psw, phone } = req.body;
             const errors = {};
@@ -133,4 +137,20 @@ module.exports = {
             next(error)
         }
     },
+
+    getUserById: async (req, res, next) => {
+        try {
+            const {id} = req.params;
+            User.findById(id,(err, user)=>{
+                if (err) {
+                    res.send({err})
+                }else{
+                    res.send({user})
+                } 
+            } )
+            
+        } catch (error) {
+            next(error)
+        }
+    }
 }
