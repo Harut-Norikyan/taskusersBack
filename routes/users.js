@@ -8,9 +8,5 @@ router.post("/update/:id", UserController.update);
 router.delete("/delete/:id", UserController.delete);
 router.get("/get-users", UserController.getUsers);
 router.get("/user/:id", UserController.getUserById);
-<<<<<<< HEAD
-
-=======
->>>>>>> refs/remotes/origin/master
 
 module.exports = router;

@@ -142,11 +142,7 @@ module.exports = {
 
     getUserById: async (req, res, next) => {
         try {
-<<<<<<< HEAD
             const {id} = req.params;
-=======
-            const {id} = req.params
->>>>>>> refs/remotes/origin/master
             User.findById(id,(err, user)=>{
                 if (err) {
                     res.send({err})
@@ -158,9 +154,6 @@ module.exports = {
         } catch (error) {
             next(error)
         }
-<<<<<<< HEAD
     },
-=======
-    }
->>>>>>> refs/remotes/origin/master
+
 }
