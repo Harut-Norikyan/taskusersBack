@@ -118,7 +118,8 @@ module.exports = {
                     }
                     else {
                         res.send({
-                            status: "user updated"
+                            status: "user updated",
+                            result,
                         });
                     };
                 });
@@ -130,9 +131,10 @@ module.exports = {
     delete: async (req, res, next) => {
         try {
             const { id } = req.params;
-            console.log(id,"id");
             await User.findOneAndDelete({ _id: id })
-            return res.status(200).json({ success: true })
+            return res.send({
+                status: "success"
+            })
         } catch (error) {
             next(error)
         }
@@ -140,7 +142,11 @@ module.exports = {
 
     getUserById: async (req, res, next) => {
         try {
+<<<<<<< HEAD
             const {id} = req.params;
+=======
+            const {id} = req.params
+>>>>>>> refs/remotes/origin/master
             User.findById(id,(err, user)=>{
                 if (err) {
                     res.send({err})
@@ -152,5 +158,9 @@ module.exports = {
         } catch (error) {
             next(error)
         }
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> refs/remotes/origin/master
 }
