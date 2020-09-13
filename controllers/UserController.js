@@ -28,15 +28,15 @@ module.exports = {
                 errors.email = "Email already exists in database";
             }
             if (Object.keys(errors).length) {
-                return res.status(422).send({
+                return res.send({
                     status: "error",
                     errors,
                 });
             };
-            const user = await User.create({ firstName, lastName, email, psw, phone });
+            const user = await User.create({ firstName, lastName, email, psw, phone});
             res.send({
                 status: "done",
-                user
+                user,
             });
 
         } catch (error) {
@@ -47,7 +47,7 @@ module.exports = {
     login: async (req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*")
         try {
-            const { email, psw } = req.body
+            const { email, psw } = req.body;
             const user = await User.findOne({ $and: [{ email }, { psw }] });
             if (user) {
                 const token = jwt.sign({ id: user._id },
@@ -58,9 +58,9 @@ module.exports = {
                     token,
                     user,
                 });
-            }else{
+            } else {
                 res.send({
-                    status:"Wrong email or password"
+                    status: "Wrong email or password"
                 })
             }
         } catch (error) {
@@ -84,6 +84,9 @@ module.exports = {
             const { id } = req.params;
             const { firstName, lastName, email, psw, phone } = req.body;
             const errors = {};
+            const userById = await User.findById(id)
+            const userByEmail = await User.find({ email });
+            console.log(userByEmail);
             if (!firstName) {
                 errors.firstName = "First name is required";
             };
@@ -93,14 +96,14 @@ module.exports = {
             if (!email) {
                 errors.email = "Email is required";
             };
+            if (userByEmail.length > 1) {
+                errors.email = "Email already exists in database";
+            };
             if (!phone) {
                 errors.phone = "Phone is required";
             };
-            if (!psw) {
-                errors.psw = "Password is required";
-            };
             if (Object.keys(errors).length) {
-                return res.status(422).send({
+                return res.send({
                     status: "error",
                     errors,
                 });
@@ -110,7 +113,7 @@ module.exports = {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
-                    psw: psw,
+                    psw: psw ? psw : userById.psw,
                     phone: phone
                 }, (err, result) => {
                     if (err) {
@@ -142,15 +145,15 @@ module.exports = {
 
     getUserById: async (req, res, next) => {
         try {
-            const {id} = req.params;
-            User.findById(id,(err, user)=>{
+            const { id } = req.params;
+            User.findById(id, (err, user) => {
                 if (err) {
-                    res.send({err})
-                }else{
-                    res.send({user})
-                } 
-            } )
-            
+                    res.send({ err })
+                } else {
+                    res.send({ user })
+                }
+            })
+
         } catch (error) {
             next(error)
         }

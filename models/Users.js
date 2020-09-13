@@ -6,7 +6,7 @@ const UserSchema = new Schema({
     lastName: String,
     email: String,
     psw : String,
-    phone : String
+    phone : String,
 });
 
 const User = mongoose.model("user", UserSchema);
