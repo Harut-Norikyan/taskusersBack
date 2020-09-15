@@ -48,7 +48,11 @@ const router = express.Router();
 
 router.post('/add-user', upload.single('photo'), function (req, res, next) {
     console.log(req.file,"req.file");
+    console.log(req.files,"req.filessssssssss");
     console.log(req.body,"req.body");
+    return res.status(200).json({
+        status: true
+    })
 })
 module.exports = router
 
