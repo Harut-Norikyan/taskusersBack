@@ -1,15 +1,14 @@
-var fs = require('fs'); 
-var path = require('path'); 
 var multer = require('multer'); 
   
 var storage = multer.diskStorage({ 
     destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
+        cb(null, 'public/uploads') 
     }, 
     filename: (req, file, cb) => { 
-        cb(null, file.fileName + '-' + Date.now()) 
+        cb(null, file.originalname + '-' + Date.now()) 
     } 
 }); 
 
 var upload = multer({ storage: storage });
 module.exports = upload
+

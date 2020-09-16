@@ -40,20 +40,31 @@
 
 
 
+// var express = require('express')
+// var multer  = require('multer')
+// var upload = multer({ dest: 'uploads' })
+// const router = express.Router();
+
+
+// router.post('/add-user', upload.single('photo'), function (req, res, next) {
+//     console.log(req.file,"req.file");
+//     console.log(req.body,"req.body");
+//     return res.status(200).json({
+//         status: true
+//     })
+// })
+// module.exports = router
+
+
+
 var express = require('express')
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads' })
+var upload = require("../middlewares/fileUpload")
 const router = express.Router();
 
-
 router.post('/add-user', upload.single('photo'), function (req, res, next) {
-    console.log(req.file,"req.file");
-    console.log(req.files,"req.filessssssssss");
-    console.log(req.body,"req.body");
-    return res.status(200).json({
-        status: true
-    })
+   console.log(req.file,"reqfile");
+   console.log(req.body,"reqbody");
+
 })
 module.exports = router
-
 
